@@ -1,0 +1,8 @@
+[
+    {
+        "name": "ceval",
+        "pattern": "ceval",
+        "dataset": "../data/ceval",
+        "subset_list": ["default"]
+    }
+]
