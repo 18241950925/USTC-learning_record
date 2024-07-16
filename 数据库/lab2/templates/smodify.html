@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>学生信息管理</title>
+  <link rel="stylesheet" type="text/css" href="../static/css/test.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="nav-right visible-xs">
+    <div class="button" id="btn1">
+      <div class="bar top"></div>
+      <div class="bar middle"></div>
+      <div class="bar bottom"></div>
+    </div>
+  </div>
+  <main>
+    <nav>
+      <div class="nav-right hidden-xs">
+        <div class="button" id="btn2">
+          <div class="bar top"></div>
+          <div class="bar middle"></div>
+          <div class="bar bottom"></div>
+        </div>
+      </div>
+    </nav>
+    <a href="https://codepen.io/tonkec/" class="ua" target="_blank">
+      <i class="fa fa-user"></i>
+    </a>
+  </main>
+  <div class="sidebar">
+    <ul class="sidebar-list">
+      <li class="sidebar-item"><a href="#" class="sidebar-anchor" data-target="information-view">信息查看</a></li>
+      <li class="sidebar-item"><a href="#" class="sidebar-anchor" data-target="information-modify">信息修改</a></li>
+      <li class="sidebar-item"><a href="#" class="sidebar-anchor" data-target="report-repair">在线报修</a></li>
+      <li class="sidebar-item"><a href="#" class="sidebar-anchor" data-target="logout">退出登录</a></li>
+    </ul>
+  </div>
+  <script type="text/javascript" src="../static/js/test.js"></script>
+  <div class="content">
+    <h1>学生信息管理</h1>
+    <div id="information-modify" class="form" style="display: none;">
+      <h2>修改信息</h2>
+          <form action="/modify_information" method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="password">修改密码：</label>
+                <input type="password" name="password" id="password" required>
+              </div>
+              <div>
+                <label for="contact">修改联系方式：</label>
+                <input type="text" name="contact" id="contact" required>
+              </div>
+              <div>
+                <label for="avatar">上传头像：</label>
+                <input type="file" name="avatar" id="avatar">
+              </div>
+              <div>
+                <label for="room-number">修改房间号：</label>
+                <input type="text" name="room-number" id="room-number" required>
+              </div>
+  <button type="submit">提交</button>
+          </form>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function() {
+      $(".sidebar-anchor").click(function(e) {
+        e.preventDefault();
+        // 获取点击的标识符
+        var target = $(this).data("target");
+        // 隐藏所有内容
+        $(".form").hide();
+        // 显示目标内容
+        $("#" + target).show();
+      });
+    });
+  </script>
+</body>
+</html>

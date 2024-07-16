@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>房间管理</title>
+</head>
+<body>
+<h1>公寓信息</h1>
+平均房间人数：{{ avg_students_per_room }}
+<table>
+  <thead>
+    <tr>
+      <th>房间号</th>
+      <th>房间人数</th>
+      <th>学生1</th>
+      <th>学生2</th>
+      <th>学生3</th>
+      <th>学生4</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for room in rooms %}
+    <tr>
+      <td>{{ room.rnumber }}</td>
+        <td>{{ room.rstatus }}</td>
+        <td>{{ room.student1_id }}</td>
+        <td>{{ room.student2_id }}</td>
+        <td>{{ room.student3_id }}</td>
+        <td>{{ room.student4_id }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</body>
+</html>

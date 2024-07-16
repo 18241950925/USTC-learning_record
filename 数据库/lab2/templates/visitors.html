@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>访客信息</title>
+</head>
+<body>
+<table>
+  <thead>
+    <tr>
+      <th>姓名</th>
+      <th>来访时间</th>
+      <th>离开时间</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for visitor in visitors %}
+    <tr>
+      <td>{{ visitor.vname }}</td>
+        <td>{{ visitor.vdata }}</td>
+        <td>{{ visitor.ldata }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</body>
+</html>

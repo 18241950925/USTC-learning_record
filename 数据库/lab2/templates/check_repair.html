@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>check_repair</title>
+</head>
+<body>
+<h1>报修处理</h1>
+  {% if option == 'all' %}
+    {% if all_repairs %}
+      <h3>所有报修记录</h3>
+      <ul>
+        <li>房间 - 状态 - 留言</li>
+        {% for repair in all_repairs %}
+          <li>
+            {{ repair.mroom }} - {{ repair.mstatus }} - {{ repair.mmessage }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>暂无报修记录</p>
+    {% endif %}
+  {% else %}
+    <form action="/submit_repairs" method="POST">
+      {% if unsolved_repairs %}
+        <h3>未解决的报修记录</h3>
+        <ul>
+          {% for repair in unsolved_repairs %}
+            <li>
+              <input type="checkbox" name="selected_repairs" value="{{ repair.mid }}">
+              {{ repair.mroom }} - {{ repair.mstatus }} - {{ repair.mmessage }}
+            </li>
+          {% endfor %}
+        </ul>
+        <button type="submit">提交</button>
+      {% else %}
+        <p>暂无未解决的报修记录</p>
+      {% endif %}
+    </form>
+  {% endif %}
+
+</body>
+</html>

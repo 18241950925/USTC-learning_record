@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>学生信息管理</title>
+  <link rel="stylesheet" type="text/css" href="../static/css/test.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="nav-right visible-xs">
+    <div class="button" id="btn1">
+      <div class="bar top"></div>
+      <div class="bar middle"></div>
+      <div class="bar bottom"></div>
+    </div>
+  </div>
+  <main>
+    <nav>
+      <div class="nav-right hidden-xs">
+        <div class="button" id="btn2">
+          <div class="bar top"></div>
+          <div class="bar middle"></div>
+          <div class="bar bottom"></div>
+        </div>
+      </div>
+    </nav>
+    <a href="https://codepen.io/tonkec/" class="ua" target="_blank">
+      <i class="fa fa-user"></i>
+    </a>
+  </main>
+  <div class="sidebar">
+    <ul class="sidebar-list">
+      <li class="sidebar-item"><a href="#" class="sidebar-anchor" data-target="information-view">信息查看</a></li>
+      <li class="sidebar-item"><a href="#" class="sidebar-anchor" data-target="information-modify">信息修改</a></li>
+      <li class="sidebar-item"><a href="#" class="sidebar-anchor" data-target="deal-repair">报修处理</a></li>
+      <li class="sidebar-item"><a href="#" class="sidebar-anchor" data-target="student-info">学生管理</a></li>
+      <li class="sidebar-item"><a href="#" class="sidebar-anchor" data-target="visitor-checkin">访客登记</a></li>
+      <li class="sidebar-item"><a href="#" class="sidebar-anchor" data-target="logout">退出登录</a></li>
+    </ul>
+  </div>
+  <script type="text/javascript" src="../static/js/test.js"></script>
+  <div class="content">
+    <h1>管理员信息管理</h1>
+    <div id = "information-view", class="form" style="display: none;">
+      <h2>查看信息</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>头像</th>
+                    <th>工号</th>
+                    <th>姓名</th>
+                    <th>联系方式</th>
+                    <th>管理公寓</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><img src= "{{ url_for('static', filename='figure/' + administrator.afigure) }}" width="150" height="150" alt="头像无法显示"></td>
+                    <td>{{ administrator.aid }}</td>
+                    <td>{{ administrator.aname }}</td>
+                    <td>{{ administrator.anumber }}</td>
+                    <td>{{ administrator.apartment}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div id="information-modify" class="form" style="display: none;">
+      <h2>修改信息</h2>
+          <form action="/amodify_information" method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="userid" value="{{ administrator.aid }}">
+            <div>
+                <label for="password">修改密码：</label>
+                <input type="password" name="password" id="password" required>
+              </div>
+              <div>
+                <label for="contact">修改联系方式：</label>
+                <input type="text" name="contact" id="contact" required>
+              </div>
+              <div>
+                <label for="avatar">上传头像：</label>
+                <input type="file" name="avatar" id="avatar">
+              </div>
+              <div>
+                <label for="apartment-number">修改管理公寓：</label>
+                <input type="text" name="apartment-number" id="apartment-number" required>
+              </div>
+  <button type="submit">提交</button>
+          </form>
+    </div>
+     <script>
+        function showModifyForm(sid) {
+            document.getElementById('information-view').style.display = 'none';
+            document.getElementById('information-modify').style.display = 'block';
+            document.querySelector('[name="userid"]').value = sid;
+        }
+    </script>
+    </div>
+    <div id="deal-repair" class="form" style="display: none;">
+      <h2>报修处理</h2>
+       <form action="/deal_repair" method="POST">
+    <select name="repair-option">
+      <option value="all">查看所有报修</option>
+      <option value="unsolved">解决报修</option>
+    </select>
+    <input type="submit" value="查看">
+  </form>
+
+    </div>
+  <div id="student-info" class="form" style="display: none;">
+      <h2>查看公寓信息</h2>
+      <form action="/student_info" method="POST">
+          <select name="check-option">
+          <option value="stu">学生管理</option>
+          <option value="room">房间管理</option>
+        </select>
+          <input type="submit" value="查看">
+      </form>
+  </div>
+  <div id="visitor-checkin" class="form" style="display: none;">
+      <h2>访客登记</h2>
+      <form id="checkin-form" action="/visitor_checkin" method="POST">
+          <h3>新增访客</h3>
+            <div>
+                <label for="visitor-name">访客姓名：</label>
+                <input type="text" name="visitor-name" id="visitor-name" required>
+                <input type="datetime-local" name="arrive_time" id="arrive_time" required>
+                <input type="datetime-local" name="leave_time" id="leave_time" required>
+            </div>
+            <button type="submit">提交</button>
+      </form>
+      <h2>所有访客</h2>
+      <form id="visitor-all" action="/get_all_visitors" method="GET">
+            <div>
+
+            </div>
+          <button type="submit">查看</button>
+      </form>
+        <ul id="visitor-list">
+
+        </ul>
+  </div>
+
+<script>
+    // 使用jQuery发送Ajax请求
+    import {
+        $
+    } from "../../../../AppData/Local/Programs/Python/Python39/Lib/site-packages/gradio/templates/frontend/assets/Index-5VIm4W3f";
+
+    $(document).ready(function(){
+        // 发送Ajax请求以获取访客信息
+        $.ajax({
+            url: '/get_all_visitors',
+            type: 'GET',
+            success: function(data){
+                // 清空访客列表
+                $('#visitor-list').empty();
+                // 将访客信息添加到列表中
+                data.forEach(function(visitor){
+                    $('#visitor-list').append('<li>' + visitor.vname + ' - ' + visitor.vdata + ' - ' + visitor.ldata + '</li>');
+                });
+            }
+        });
+
+        // 监听表单提交事件
+        $('#checkin-form').submit(function(e){
+            e.preventDefault();
+            // 使用Ajax提交表单数据
+            $.ajax({
+                url: '/visitor_checkin',
+                type: 'POST',
+                data: $(this).serialize(), // 序列化表单数据
+                success: function(response){
+                    // 显示成功消息或处理错误
+                    alert(response);
+                    // 重新加载访客列表
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>
+  <div id="logout" class="form" style="display: none;">
+      <h2>退出登录</h2>
+      <form action="/logout" method="POST">
+        <button type="submit">确定</button>
+      </form>
+  </div>
+  </div>
+  <script>
+    $(document).ready(function() {
+      $(".sidebar-anchor").click(function(e) {
+        e.preventDefault();
+        // 获取点击的标识符
+        var target = $(this).data("target");
+        // 隐藏所有内容
+        $(".form").hide();
+        // 显示目标内容
+        $("#" + target).show();
+      });
+
+    });
+  </script>
+</body>
+</html>

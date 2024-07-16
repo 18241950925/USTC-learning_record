@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生公寓管理系统</title>
+    <script>
+    function login() {
+      var name = prompt("请输入您的姓名：");
+      var id = prompt("请输入您的学号或工号：");
+
+      if (name && id) {
+        alert("登录成功！");
+      } else {
+        alert("登录失败！");
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Login Page</h1>
+
+  <button onclick="login()">登录</button>
+</body>
+</html>
